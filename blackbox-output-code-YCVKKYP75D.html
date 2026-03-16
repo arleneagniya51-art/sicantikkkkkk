@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAU GA JADI PACAR ALEN??</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Bungee&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Bungee', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Explosive Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: explode 3s infinite;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(0) translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+
+        /* Main Card */
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(30px);
+            border-radius: 25px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            border: 3px solid rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 10;
+            max-width: 450px;
+            width: 90%;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        /* BIG ASS TEXT */
+        .question {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, #ffd700, #ff6b6b, #4ecdc4);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+            text-shadow: 0 0 40px rgba(255,255,255,0.8);
+            animation: textGlow 2s ease-in-out infinite alternate;
+            letter-spacing: 3px;
+            line-height: 1.1;
+        }
+
+        @keyframes textGlow {
+            from { 
+                filter: drop-shadow(0 0 20px #ff6b6b);
+                text-shadow: 0 0 40px rgba(255,255,255,0.8);
+            }
+            to { 
+                filter: drop-shadow(0 0 40px #4ecdc4);
+                text-shadow: 0 0 60px rgba(255,255,255,1);
+            }
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 20px 45px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-family: 'Bungee', sans-serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            min-width: 160px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff4757, #ff6b7a);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1) translateY(-10px);
+            box-shadow: 0 25px 50px rgba(255, 71, 87, 0.6);
+        }
+
+        .btn-no {
+            background: linear-gradient(45deg, #ffa502, #ff6348);
+            color: white;
+        }
+
+        .btn-no:hover {
+            animation: runAway 0.8s infinite;
+        }
+
+        @keyframes runAway {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(20px) rotate(-10deg); }
+            75% { transform: translateX(-20px) rotate(10deg); }
+        }
+
+        /* Response */
+        .response {
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .response.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .yes-explosion {
+            background: linear-gradient(45deg, #00d2d3, #ffafbd);
+            color: #000;
+            animation: explodeIn 1s ease-out;
+            box-shadow: 0 0 50px rgba(0, 210, 211, 0.8);
+        }
+
+        .no-explosion {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: #333;
+            box-shadow: 0 0 50px rgba(255, 154, 158, 0.6);
+        }
+
+        @keyframes explodeIn {
+            0% {
+                transform: scale(0) rotate(180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.2) rotate(0deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            .question {
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="card">
+        <div class="question">
+            MAU GA JADI<br>
+            PACAR ALEN?? 💕
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="accept()">
+                MAU BANGET! 😍
+            </button>
+            <button class="btn btn-no" onclick="reject()">
+                BELUM SIH 😅
+            </button>
+        </div>
+        
+        <div class="response" id="response"></div>
+    </div>
+
+    <script>
+        // Particle Explosion
+        function createExplosion(x, y) {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                const angle = (i / 30) * Math.PI * 2;
+                const distance = 150 + Math.random() * 100;
+                particle.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
+                particle.style.setProperty('--dy', Math.sin(angle) * distance + 'px');
+                
+                particlesContainer.appendChild(particle);
+                setTimeout(() => particle.remove(), 3000);
+            }
+        }
+
+        // Accept Function
+        function accept() {
+            const response = document.getElementById('response');
+            response.innerHTML = `
+                🎉 YESSHHH ALEN SENANG BANGET! 🎉<br>
+                💕 KITA MULAI DARI SINI YA 💕<br>
+                😍 ALEN TULAN JADIIN PACAR KAMU 😍
+            `;
+            response.className = 'response yes-explosion show';
+            
+            // Massive celebration
+            const rect = response.getBoundingClientRect();
+            createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
+            
+            // Victory particles
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    createExplosion(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }, i * 50);
+            }
+        }
+
+        // Reject Function
+        function reject() {
+            const response = document.getElementById('response');
+            response.innerHTML = `
+                😢 OKE ALAH... 😢<br>
+                TAPI ALEN MASIH NUNGGU LO YAA! 👀<br>
+                3... 2... 1... COBA LGI!
+            `;
+            response.className = 'response no-explosion show';
+            
+            const rect = response.getBoundingClientRect();
+            createExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
+            
+            // Reset after 4 seconds
+            setTimeout(() => {
+                response.innerHTML = '';
+                response.classList.remove('show');
+            }, 4000);
+        }
+
+        // Continuous background particles
+        setInterval(() => {
+            createExplosion(
+                Math.random() * window.innerWidth,
+                Math.random() * window.innerHeight
+            );
+        }, 2000);
+    </script>
+</body>
+</html>
